@@ -1,0 +1,29 @@
+# Risk Advisor — 投资组合风险诊断 managed-agent cookbook
+# 同一份 system prompt 同时服务 Cowork plugin 和 CMA (Claude Managed Agent)
+
+name: risk-advisor
+model: claude-opus-4-7
+
+system:
+  file: ../../plugins/agent-plugins/risk-advisor/agents/risk-advisor.md
+  append: "你正在以无界面（headless）模式运行。将产出文件写入 ./out/ 目录；不要假设有打开的 Office 文档或交互式 UI。"
+
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: grep,  enabled: true }
+      - { name: glob,  enabled: true }
+  - { type: mcp_toolset, mcp_server_name: akshare, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: akshare, url: "${AKSHARE_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/risk-advisor }
+
+callable_agents:
+  - { manifest: ./subagents/portfolio-reader.yaml }
+  - { manifest: ./subagents/risk-calculator.yaml }
+  - { manifest: ./subagents/report-writer.yaml }

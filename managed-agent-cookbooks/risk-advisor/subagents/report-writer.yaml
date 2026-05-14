@@ -1,0 +1,28 @@
+# report-writer: 整合风险诊断结果，生成结构化评估报告
+# 安全层级: Tier 3 — 不接触不受信任文档，无 MCP connector，唯一持有 Write 权限的 leaf
+
+name: risk-report-writer
+model: claude-sonnet-4-6
+system:
+  text: |
+    你是投资组合风险诊断报告的最终撰写者，负责将 portfolio-reader 和 risk-calculator
+    的分析结果整合为结构化、可直接交付的风险诊断报告。
+    你是整个 agent 中唯一持有 Write/Edit 权限的 worker。
+    产出文件写入 ./out/ 目录，格式为 Markdown (.md) 或 Excel (.xlsx)。
+    报告内容必须包含：
+    - 风险仪表盘（各维度红/黄/绿灯）
+    - 脆弱点和抗压能力总结
+    - C1-C5 匹配度结论（仅描述，不推荐调整方案）
+    - 压力测试假设前提和局限性说明
+    - 免责声明
+    只做描述性诊断，不做规范性建议。不暗示任何投资结果保证。
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: write, enabled: true }
+      - { name: edit, enabled: true }
+mcp_servers: []
+skills: []
+callable_agents: []

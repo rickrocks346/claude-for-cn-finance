@@ -1,0 +1,27 @@
+# screener: 执行多维度基金筛选、业绩归因、风格检测
+# 安全层级: Tier 2 — 不接触不受信任文档，有 MCP connector（只读），无 Write
+
+name: fund-screener-core
+model: claude-sonnet-4-6
+system:
+  text: |
+    你负责基于 data-reader 提取的结构化数据，执行以下分析：
+    - 多维度基金筛选与排名（业绩/风险/规模/费率/基金经理稳定性）
+    - Brinson 业绩归因（配置效应/选股效应/交互效应）
+    - 风格漂移检测（名称/仓位/市值/行业 vs 基准偏离度）
+    - 持仓穿透分析（行业分布、风格九宫格、重仓股重叠度）
+    - 基金经理历史业绩追踪与能力评估（选股/择时/行业配置）
+    你可以访问 AKShare MCP 连接器获取基金净值和持仓数据。
+    不直接读取不受信任的原始文档——只消费 data-reader 的 schema 输出。
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: akshare, default_config: { enabled: true } }
+mcp_servers:
+  - { type: url, name: akshare, url: "${AKSHARE_MCP_URL}" }
+skills: []
+callable_agents: []

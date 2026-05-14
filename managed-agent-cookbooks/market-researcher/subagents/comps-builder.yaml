@@ -1,0 +1,26 @@
+# comps-builder: 执行可比公司分析、行业比较、估值分位分析
+# 安全层级: Tier 2 — 不接触不受信任文档，有 MCP connector（只读），无 Write
+
+name: market-comps-builder
+model: claude-sonnet-4-6
+system:
+  text: |
+    你负责基于 doc-reader 提取的结构化数据，执行以下分析：
+    - 可比公司筛选与估值分位分析（PE/PB/PS/EV-EBITDA 分位）
+    - 申万行业分类下的多维比较（营收增速/毛利率/ROE/杠杆等）
+    - 板块轮动特征识别与日历效应分析
+    - 政策影响传导路径分析
+    你可以访问 AKShare MCP 连接器获取行情和财务数据。
+    不直接读取不受信任的原始文档——只消费 doc-reader 的 schema 输出。
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: akshare, default_config: { enabled: true } }
+mcp_servers:
+  - { type: url, name: akshare, url: "${AKSHARE_MCP_URL}" }
+skills: []
+callable_agents: []
