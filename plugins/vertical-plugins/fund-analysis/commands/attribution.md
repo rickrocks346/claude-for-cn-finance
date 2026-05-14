@@ -1,7 +1,7 @@
 ---
 description: "对基金进行业绩归因分析"
 ---
-# /cn-finance:attribution [基金代码]
+# /attribution [基金代码]
 
 ## 输入
 - `基金代码`（必需）：6 位基金代码

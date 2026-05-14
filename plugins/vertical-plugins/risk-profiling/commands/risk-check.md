@@ -1,7 +1,7 @@
 ---
 description: "上传投资组合后进行全面的风险诊断"
 ---
-# /cn-finance:risk-check
+# /risk-check
 
 ## 输入
 - 用户上传的投资组合（Excel/CSV 或手动输入，包含：代码、名称、持仓占比/金额）

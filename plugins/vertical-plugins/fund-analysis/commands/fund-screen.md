@@ -1,7 +1,7 @@
 ---
 description: "按多维度条件筛选公募基金"
 ---
-# /cn-finance:fund-screen [条件]
+# /fund-screen [条件]
 
 ## 输入
 - `条件`（可选）：筛选条件，如"股票型|近3年收益前20|规模>5亿"

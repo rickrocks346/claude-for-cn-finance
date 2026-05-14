@@ -1,7 +1,7 @@
 ---
 description: "穿透分析基金持仓结构"
 ---
-# /cn-finance:holdings [基金代码]
+# /holdings [基金代码]
 
 ## 输入
 - `基金代码`（必需）：6 位基金代码

@@ -1,7 +1,7 @@
 ---
 description: "检查投资组合与声明的风险偏好等级是否匹配"
 ---
-# /cn-finance:profile-match [风险等级]
+# /profile-match [风险等级]
 
 ## 输入
 - `风险等级`（必需）：C1(保守)/C2(稳健)/C3(平衡)/C4(积极)/C5(激进)

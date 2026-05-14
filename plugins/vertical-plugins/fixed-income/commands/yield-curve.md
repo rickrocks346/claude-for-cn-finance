@@ -1,7 +1,7 @@
 ---
 description: "展示和分析中国国债及信用债收益率曲线"
 ---
-# /cn-finance:yield-curve
+# /yield-curve
 
 ## 输入
 - 可选参数：`--type=all|treasury|policy-bank|credit`（曲线类型，默认 all）

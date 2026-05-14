@@ -1,7 +1,7 @@
 ---
 description: "检测基金风格漂移程度"
 ---
-# /cn-finance:style-check [基金代码]
+# /style-check [基金代码]
 
 ## 输入
 - `基金代码`（必需）：6 位基金代码

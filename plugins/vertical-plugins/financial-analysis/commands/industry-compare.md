@@ -1,7 +1,7 @@
 ---
 description: "对指定行业进行多维度比较分析"
 ---
-# /cn-finance:industry-compare [行业名称]
+# /industry-compare [行业名称]
 
 ## 输入
 - `行业名称`（必需）：行业名称，如"白酒"、"光伏"、"半导体"

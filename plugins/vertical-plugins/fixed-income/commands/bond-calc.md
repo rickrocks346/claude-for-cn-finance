@@ -1,7 +1,7 @@
 ---
 description: "计算债券收益率、久期、凸性等核心指标"
 ---
-# /cn-finance:bond-calc [债券代码]
+# /bond-calc [债券代码]
 
 ## 输入
 - `债券代码`（必需）：债券代码

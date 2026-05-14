@@ -1,7 +1,7 @@
 ---
 description: "运行估值模型，输出理论估值区间"
 ---
-# /cn-finance:valuation [股票代码]
+# /valuation [股票代码]
 
 ## 输入
 - `股票代码`（必需）：6 位数字代码

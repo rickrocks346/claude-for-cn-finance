@@ -1,7 +1,7 @@
 ---
 description: "生成上市公司财务报表分析摘要"
 ---
-# /cn-finance:financial-report [股票代码]
+# /financial-report [股票代码]
 
 ## 输入
 - `股票代码`（必需）：6 位数字代码，如 600519

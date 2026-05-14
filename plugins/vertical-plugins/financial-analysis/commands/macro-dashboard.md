@@ -1,7 +1,7 @@
 ---
 description: "生成中国宏观经济核心指标概览"
 ---
-# /cn-finance:macro-dashboard
+# /macro-dashboard
 
 ## 输入
 - 可选参数：`--indicators=gdp,cpi,ppi,pmi,m2,social-finance`（指定指标，默认全部）

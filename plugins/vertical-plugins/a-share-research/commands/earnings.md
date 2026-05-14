@@ -1,7 +1,7 @@
 ---
 description: "分析A股上市公司最新财报"
 ---
-# /cn-finance:earnings [股票代码] [季度]
+# /earnings [股票代码] [季度]
 
 ## 输入
 - `股票代码`（必需）：6 位数字代码

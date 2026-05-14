@@ -1,7 +1,7 @@
 ---
 description: "生成A股上市公司一页纸基本面速览"
 ---
-# /cn-finance:one-pager [股票代码]
+# /one-pager [股票代码]
 
 ## 输入
 - `股票代码`（必需）：6 位数字代码

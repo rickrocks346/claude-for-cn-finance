@@ -1,7 +1,7 @@
 ---
 description: "审计当前 Excel 金融模型，检测公式错误和硬编码"
 ---
-# /cn-finance:debug-model
+# /debug-model
 
 ## 输入
 - 用户上传的 Excel 文件（当前对话中的 .xlsx/.xls 文件）

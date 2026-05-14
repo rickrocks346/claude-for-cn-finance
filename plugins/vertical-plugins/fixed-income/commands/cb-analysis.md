@@ -1,7 +1,7 @@
 ---
 description: "分析可转债的转股价值、溢价率、条款博弈"
 ---
-# /cn-finance:cb-analysis [可转债代码]
+# /cb-analysis [可转债代码]
 
 ## 输入
 - `可转债代码`（必需）：可转债代码
