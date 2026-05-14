@@ -101,7 +101,7 @@ claude plugin install risk-profiling@claude-for-cn-finance
 ### Claude Cowork Plugin
 
 1. 打开 Cowork Plugin 设置
-2. 粘贴本 repo URL
+2. 粘贴本 repo URL：`https://github.com/rickrocks346/claude-for-cn-finance`
 3. 选择需要的 vertical plugin
 
 ### 手动安装
