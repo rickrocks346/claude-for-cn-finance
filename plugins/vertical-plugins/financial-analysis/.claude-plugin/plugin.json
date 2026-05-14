@@ -1,0 +1,5 @@
+{
+  "name": "financial-analysis",
+  "version": "0.1.0",
+  "description": "核心金融建模 + AKShare/Tushare 数据连接器"
+}
