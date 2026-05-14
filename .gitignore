@@ -12,9 +12,12 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Env
+# Env & Secrets
 .env
-.env.local
+.env.*
+*.local.md
+*.token
+.mcp.local.json
 
 # Logs
 *.log
