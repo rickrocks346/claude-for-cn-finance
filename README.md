@@ -16,12 +16,12 @@
 
 | Skills | Commands | 说明 |
 |--------|----------|------|
-| financial-statements | `/cn-finance:financial-report` | 中国上市公司财报分析（CAS准则、杜邦分析） |
-| valuation-models | `/cn-finance:valuation` | DCF/DDM/可比公司估值模型框架 |
-| industry-comparison | `/cn-finance:industry-compare` | 申万/中信行业分类下的多维度比较 |
-| excel-audit | `/cn-finance:debug-model` | Excel 金融模型审计（公式/硬编码/平衡性） |
+| financial-statements | `/financial-report` | 中国上市公司财报分析（CAS准则、杜邦分析） |
+| valuation-models | `/valuation` | DCF/DDM/可比公司估值模型框架 |
+| industry-comparison | `/industry-compare` | 申万/中信行业分类下的多维度比较 |
+| excel-audit | `/debug-model` | Excel 金融模型审计（公式/硬编码/平衡性） |
 | data-cleaning | — | 金融数据清洗与标准化 |
-| macro-indicators | `/cn-finance:macro-dashboard` | 中国宏观经济指标解读（GDP/CPI/PMI/M2/社融） |
+| macro-indicators | `/macro-dashboard` | 中国宏观经济指标解读（GDP/CPI/PMI/M2/社融） |
 
 ### a-share-research
 
@@ -29,11 +29,11 @@
 
 | Skills | Commands | 说明 |
 |--------|----------|------|
-| earnings-analysis | `/cn-finance:earnings` | A股财报解读（披露节奏/业绩预告/CAS关键科目） |
-| comparable-analysis | `/cn-finance:comps` | 可比公司筛选 + 估值分位分析 |
-| sector-rotation | `/cn-finance:sector` | 板块轮动（周期/日历效应/政策-板块映射） |
-| policy-impact | `/cn-finance:policy-brief` | 政策传导路径分析与影响矩阵 |
-| company-profile | `/cn-finance:one-pager` | 公司一页纸速览（概况+财务+估值+股权+行业） |
+| earnings-analysis | `/earnings` | A股财报解读（披露节奏/业绩预告/CAS关键科目） |
+| comparable-analysis | `/comps` | 可比公司筛选 + 估值分位分析 |
+| sector-rotation | `/sector` | 板块轮动（周期/日历效应/政策-板块映射） |
+| policy-impact | `/policy-brief` | 政策传导路径分析与影响矩阵 |
+| company-profile | `/one-pager` | 公司一页纸速览（概况+财务+估值+股权+行业） |
 
 ### fund-analysis
 
@@ -41,10 +41,10 @@
 
 | Skills | Commands | 说明 |
 |--------|----------|------|
-| fund-screening | `/cn-finance:fund-screen` | 多维度基金筛选与比较 |
-| holdings-analysis | `/cn-finance:holdings` | 持仓穿透（重仓股/行业配置/风格九宫格） |
-| performance-attribution | `/cn-finance:attribution` | 业绩归因（Brinson/Barra/Sharpe） |
-| style-drift | `/cn-finance:style-check` | 风格漂移检测（名称/仓位/市值/行业/基准） |
+| fund-screening | `/fund-screen` | 多维度基金筛选与比较 |
+| holdings-analysis | `/holdings` | 持仓穿透（重仓股/行业配置/风格九宫格） |
+| performance-attribution | `/attribution` | 业绩归因（Brinson/Barra/Sharpe） |
+| style-drift | `/style-check` | 风格漂移检测（名称/仓位/市值/行业/基准） |
 | manager-track-record | — | 基金经理历史业绩追踪与能力评估 |
 
 ### fixed-income
@@ -53,9 +53,9 @@
 
 | Skills | Commands | 说明 |
 |--------|----------|------|
-| bond-analysis | `/cn-finance:bond-calc` | 债券 YTM/久期/凸性 + 信用利差分析 |
-| yield-curve | `/cn-finance:yield-curve` | 中国国债收益率曲线形态与利率走势 |
-| convertible-bond | `/cn-finance:cb-analysis` | 可转债（转股价值/溢价率/条款博弈） |
+| bond-analysis | `/bond-calc` | 债券 YTM/久期/凸性 + 信用利差分析 |
+| yield-curve | `/yield-curve` | 中国国债收益率曲线形态与利率走势 |
+| convertible-bond | `/cb-analysis` | 可转债（转股价值/溢价率/条款博弈） |
 | bank-wealth-product | — | 银行理财产品分析（净值化/费率/风险匹配） |
 
 ### risk-profiling
@@ -64,10 +64,24 @@
 
 | Skills | Commands | 说明 |
 |--------|----------|------|
-| risk-assessment | `/cn-finance:risk-check` | 组合风险指标计算（波动率/VaR/夏普/Beta） |
-| profile-matching | `/cn-finance:profile-match` | C1-C5 五级风险偏好匹配度诊断 |
+| risk-assessment | `/risk-check` | 组合风险指标计算（波动率/VaR/夏普/Beta） |
+| profile-matching | `/profile-match` | C1-C5 五级风险偏好匹配度诊断 |
 | concentration-analysis | — | 多维度集中度分析（个股/行业/资产/地域） |
-| drawdown-analysis | `/cn-finance:stress-test` | 历史极端事件压力测试 |
+| drawdown-analysis | `/stress-test` | 历史极端事件压力测试 |
+
+---
+
+## Agent Plugins（v0.1.0 新增）
+
+自包含的 agent plugin，bundle 所需 vertical skills，可直接作为独立分析工具使用。
+
+| Agent | Bundled Skills | 用途 |
+|-------|---------------|------|
+| `/market-researcher` | financial-analysis + a-share-research | A股市场研究（财报/估值/行业比较/政策/板块轮动） |
+| `/fund-screener` | financial-analysis + fund-analysis | 基金筛选分析（筛选/持仓穿透/业绩归因/风格漂移） |
+| `/risk-advisor` | financial-analysis + risk-profiling | 组合风险诊断（风险指标/回撤/集中度/匹配度） |
+
+每个 agent 包含：角色定义、能力范围、合规边界、工作流程模板，位于 `agents/<slug>.md`。
 
 ---
 
@@ -93,7 +107,7 @@ claude plugin install risk-profiling@claude-for-cn-finance
 ### 手动安装
 
 ```bash
-git clone https://github.com/<your-org>/claude-for-cn-finance.git
+git clone https://github.com/rickrocks346/claude-for-cn-finance.git
 # 将 plugins/vertical-plugins/<vertical>/ 目录复制到 Claude Code plugins 目录
 ```
 
@@ -202,9 +216,9 @@ pip install akshare
 | 阶段 | 内容 | 状态 |
 |------|------|------|
 | Phase 0-7 | 5 个 vertical plugin 框架搭建 | 完成 |
-| Phase 9 | Agent plugin 同步 + 校验 | 进行中 |
-| v0.2 | Skill 内容深度补充（NotebookLM 研究） | 计划中 |
-| v0.3 | 新增数据源 connector（东方财富 Choice/Wind/聚宽） | 计划中 |
-| v0.4 | Managed Agent 版本 | 计划中 |
-| v0.5 | 小程序/轻量版客户端适配 | 探索中 |
+| Phase 8 (post8a/8b) | 24 个 SKILL.md Type A+B+C 内容充实 | 完成 |
+| Phase 9 | Agent plugin 层 + v0.1.0 发布 | 完成 |
+| v0.2 | 新增数据源 connector（东方财富 Choice/Wind/聚宽） | 计划中 |
+| v0.3 | Managed Agent 版本 | 计划中 |
+| v0.4 | 小程序/轻量版客户端适配 | 探索中 |
 | — | 豆包/Kimi 等其他 AI 平台适配 | 探索中 |
