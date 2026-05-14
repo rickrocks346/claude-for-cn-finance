@@ -1,0 +1,6 @@
+{
+  "name": "market-researcher",
+  "version": "0.1.0",
+  "description": "A股市场研究 agent — 财报分析、行业比较、估值建模、政策影响、板块轮动",
+  "bundles": ["financial-analysis", "a-share-research"]
+}

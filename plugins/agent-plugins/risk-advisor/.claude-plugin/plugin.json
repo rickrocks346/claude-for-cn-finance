@@ -1,0 +1,6 @@
+{
+  "name": "risk-advisor",
+  "version": "0.1.0",
+  "description": "投资组合风险诊断 agent — 风险指标计算、回撤分析、集中度分析、风险偏好匹配度诊断",
+  "bundles": ["financial-analysis", "risk-profiling"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "fund-screener",
+  "version": "0.1.0",
+  "description": "公募/私募基金筛选分析 agent — 基金筛选、持仓穿透、业绩归因、风格漂移、经理评估",
+  "bundles": ["financial-analysis", "fund-analysis"]
+}
