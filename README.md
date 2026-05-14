@@ -20,7 +20,7 @@
 | valuation-models | `/valuation` | DCF/DDM/可比公司估值模型框架 |
 | industry-comparison | `/industry-compare` | 申万/中信行业分类下的多维度比较 |
 | excel-audit | `/debug-model` | Excel 金融模型审计（公式/硬编码/平衡性） |
-| data-cleaning | — | 金融数据清洗与标准化 |
+| data-cleaning | `/data-clean` | 金融数据清洗与标准化 |
 | macro-indicators | `/macro-dashboard` | 中国宏观经济指标解读（GDP/CPI/PMI/M2/社融） |
 
 ### a-share-research
@@ -45,7 +45,7 @@
 | holdings-analysis | `/holdings` | 持仓穿透（重仓股/行业配置/风格九宫格） |
 | performance-attribution | `/attribution` | 业绩归因（Brinson/Barra/Sharpe） |
 | style-drift | `/style-check` | 风格漂移检测（名称/仓位/市值/行业/基准） |
-| manager-track-record | — | 基金经理历史业绩追踪与能力评估 |
+| manager-track-record | `/manager` | 基金经理历史业绩追踪与能力评估 |
 
 ### fixed-income
 
@@ -56,7 +56,7 @@
 | bond-analysis | `/bond-calc` | 债券 YTM/久期/凸性 + 信用利差分析 |
 | yield-curve | `/yield-curve` | 中国国债收益率曲线形态与利率走势 |
 | convertible-bond | `/cb-analysis` | 可转债（转股价值/溢价率/条款博弈） |
-| bank-wealth-product | — | 银行理财产品分析（净值化/费率/风险匹配） |
+| bank-wealth-product | `/wealth` | 银行理财产品分析（净值化/费率/风险匹配） |
 
 ### risk-profiling
 
@@ -66,7 +66,7 @@
 |--------|----------|------|
 | risk-assessment | `/risk-check` | 组合风险指标计算（波动率/VaR/夏普/Beta） |
 | profile-matching | `/profile-match` | C1-C5 五级风险偏好匹配度诊断 |
-| concentration-analysis | — | 多维度集中度分析（个股/行业/资产/地域） |
+| concentration-analysis | `/concentration` | 多维度集中度分析（个股/行业/资产/地域） |
 | drawdown-analysis | `/stress-test` | 历史极端事件压力测试 |
 
 ---
