@@ -2,9 +2,82 @@
 
 面向中国金融从业者的 Claude plugin 工具集 — A股研究、基金分析、固收理财、风险画像。
 
-本项目是 [Anthropic financial-services](https://github.com/anthropics/financial-services) 的中国本土化版本，采用同一套 skill 源文件双部署到 Claude Code plugin 和 Claude Cowork plugin。
+本项目是 [Anthropic financial-services](https://github.com/anthropics/financial-services) 的中国本土化版本，采用同一套 skill 源文件双部署到 Claude Code/Cowork plugin 和 Claude Managed Agent。
 
-> **重要声明**：本工具仅供分析研究使用，**不构成任何投资建议**。所有分析结果由 AI 生成，仅供参考。使用者应独立判断并承担投资风险。请咨询持牌专业人士后再做出投资决策。
+> **重要声明**：本工具仅供分析研究使用，**不构成任何投资建议**。所有分析结果由 AI 生成，仅供参考。使用者应独立判断并承担投资风险。请咨询持牌专业人士后再做出投资决策。所有 Agent 输出均为分析师草稿，须经合格持牌人士审阅后方可使用。
+
+仓库包含：
+
+- **[Agent Plugins](#agent-pluginsv010-新增)** — 端到端工作流 agent（市场研究员、基金筛选师、风险顾问），每个同时是 Cowork plugin 和 [Claude Managed Agent 模板](./managed-agent-cookbooks)
+- **[Vertical Plugins](#功能总览)** — 按金融子领域组织的 skills、slash commands 和数据连接器（AKShare + Tushare）
+
+## Repository Layout
+
+```
+├── plugins/
+│   ├── agent-plugins/               #   命名 agent — 各自自包含一个 plugin
+│   │   └── <slug>/
+│   │       ├── .claude-plugin/plugin.json
+│   │       ├── agents/<slug>.md     #   ← 标准 system prompt（单一来源，双部署）
+│   │       └── skills/              #   ← 同步副本，来自 vertical-plugins/
+│   ├── vertical-plugins/            #   按子领域组织的 skill + command + MCP 连接器
+│   │   └── <vertical>/
+│   │       ├── .claude-plugin/plugin.json
+│   │       ├── commands/
+│   │       ├── skills/
+│   │       └── .mcp.json
+├── managed-agent-cookbooks/         #   CMA cookbooks（每个 agent 一套）
+│   └── <slug>/
+│       ├── agent.yaml               #   system + skills → ../../plugins/agent-plugins/<slug>/...
+│       ├── subagents/*.yaml         #   depth-1 leaf workers
+│       ├── steering-examples.json
+│       └── README.md                #   安全层级 + handoff 说明
+├── scripts/                         #   check.py · validate.py · sync-agent-skills.py · deploy-managed-agent.py · test-cookbooks.py
+├── docs/                            #   合规红线 + 数据源配置
+└── .github/workflows/               #   CI（secret-scan + cookbook 验证 + plugin lint）
+```
+
+## 快速开始
+
+### Claude Code
+
+```bash
+# 添加 marketplace
+claude plugin marketplace add rickrocks346/claude-for-cn-finance
+
+# 核心 skills + 数据连接器（最先安装）
+claude plugin install financial-analysis@claude-for-cn-finance
+
+# Named agents — 按需安装
+claude plugin install market-researcher@claude-for-cn-finance
+claude plugin install fund-screener@claude-for-cn-finance
+claude plugin install risk-advisor@claude-for-cn-finance
+
+# Vertical skill bundles
+claude plugin install a-share-research@claude-for-cn-finance
+claude plugin install fund-analysis@claude-for-cn-finance
+claude plugin install fixed-income@claude-for-cn-finance
+claude plugin install risk-profiling@claude-for-cn-finance
+```
+
+安装后可在对话中直接使用 slash commands（`/earnings`、`/valuation`、`/risk-check` 等），skills 在相关场景自动触发。
+
+### Claude Cowork
+
+在 Cowork 中打开 **Settings → Plugins → Add plugin**，粘贴本 repo URL：
+`https://github.com/rickrocks346/claude-for-cn-finance`，然后从 marketplace 列表中选择需要的 agent 和 vertical。
+
+### Claude Managed Agent
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+export AKSHARE_MCP_URL=...
+py scripts/deploy-managed-agent.py market-researcher
+```
+
+每个 [`managed-agent-cookbooks/`](./managed-agent-cookbooks) 下的模板引用与其 plugin 对应方相同的 system prompt 和 skills。deploy 脚本解析文件引用、上传 skills、创建 leaf-worker subagent 并 `POST /v1/agents`。
+
+> **Research Preview:** subagent 委托（`callable_agents`）支持一级委托。Orchestrator 可调用 worker；worker 不可再委托。
 
 ---
 
@@ -73,15 +146,15 @@
 
 ## Agent Plugins（v0.1.0 新增）
 
-自包含的 agent plugin，bundle 所需 vertical skills，可直接作为独立分析工具使用。
+自包含的 agent plugin，bundle 所需 vertical skills，可直接作为独立分析工具使用。每个 agent 同时是 Cowork plugin **和** [Claude Managed Agent 模板](./managed-agent-cookbooks) — 同一份 system prompt，同一套 skills，选择你的运行环境。
 
 | Agent | Bundled Skills | 用途 |
 |-------|---------------|------|
-| `/market-researcher` | financial-analysis + a-share-research | A股市场研究（财报/估值/行业比较/政策/板块轮动） |
-| `/fund-screener` | financial-analysis + fund-analysis | 基金筛选分析（筛选/持仓穿透/业绩归因/风格漂移） |
-| `/risk-advisor` | financial-analysis + risk-profiling | 组合风险诊断（风险指标/回撤/集中度/匹配度） |
+| `market-researcher` | financial-analysis + a-share-research | A股市场研究（财报/估值/行业比较/政策/板块轮动） |
+| `fund-screener` | financial-analysis + fund-analysis | 基金筛选分析（筛选/持仓穿透/业绩归因/风格漂移） |
+| `risk-advisor` | financial-analysis + risk-profiling | 组合风险诊断（风险指标/回撤/集中度/匹配度） |
 
-每个 agent 包含：角色定义、能力范围、合规边界、工作流程模板，位于 `agents/<slug>.md`。
+每个 agent 包含：角色定义、能力范围、合规边界、工作流程模板，位于 `agents/<slug>.md`。CMA 部署模板（`agent.yaml` + depth-1 subagents + steering examples）位于 `managed-agent-cookbooks/<slug>/`。
 
 ---
 
@@ -90,8 +163,18 @@
 ### Claude Code Plugin
 
 ```bash
+# 添加 marketplace（一次性）
+claude plugin marketplace add rickrocks346/claude-for-cn-finance
+
+# 核心层（最先安装）
 claude plugin install financial-analysis@claude-for-cn-finance
-# 安装全部 vertical:
+
+# Named agents — 按需选择
+claude plugin install market-researcher@claude-for-cn-finance
+claude plugin install fund-screener@claude-for-cn-finance
+claude plugin install risk-advisor@claude-for-cn-finance
+
+# Vertical skill bundles
 claude plugin install a-share-research@claude-for-cn-finance
 claude plugin install fund-analysis@claude-for-cn-finance
 claude plugin install fixed-income@claude-for-cn-finance
@@ -102,7 +185,7 @@ claude plugin install risk-profiling@claude-for-cn-finance
 
 1. 打开 Cowork Plugin 设置
 2. 粘贴本 repo URL：`https://github.com/rickrocks346/claude-for-cn-finance`
-3. 选择需要的 vertical plugin
+3. 从 marketplace 列表中选择需要的 agent 和 vertical plugin
 
 ### 手动安装
 
@@ -157,10 +240,11 @@ pip install akshare
 
 ### 修改现有 Skill
 
-1. 编辑 `plugins/vertical-plugins/<vertical>/skills/<skill-name>/SKILL.md`
-2. 运行 `python3 scripts/check.py` 校验
-3. 运行 `python3 scripts/validate.py` 验证格式
-4. 运行 `python3 scripts/sync-agent-skills.py` 同步到 agent-plugins
+1. 编辑 `plugins/vertical-plugins/<vertical>/skills/<skill-name>/SKILL.md`（**在此编辑**，不要在 agent-plugins 副本中编辑）
+2. 运行 `py scripts/check.py` 校验
+3. 运行 `py scripts/validate.py` 验证格式
+4. 运行 `py scripts/sync-agent-skills.py` 同步到 agent-plugins
+5. 运行 `py scripts/test-cookbooks.py` 验证 CMA cookbook 完整性
 
 ### 添加新 Command
 
@@ -218,7 +302,8 @@ pip install akshare
 | Phase 0-7 | 5 个 vertical plugin 框架搭建 | 完成 |
 | Phase 8 (post8a/8b) | 24 个 SKILL.md Type A+B+C 内容充实 | 完成 |
 | Phase 9 | Agent plugin 层 + v0.1.0 发布 | 完成 |
+| Phase 10 | Managed Agent cookbooks + deploy/test 脚本 + CI | 完成 |
 | v0.2 | 新增数据源 connector（东方财富 Choice/Wind/聚宽） | 计划中 |
-| v0.3 | Managed Agent 版本 | 计划中 |
+| v0.3 | 更多 agent plugin（earnings-reviewer / compliance-screener 等） | 计划中 |
 | v0.4 | 小程序/轻量版客户端适配 | 探索中 |
-| — | 豆包/Kimi 等其他 AI 平台适配 | 探索中 |
+| — | partner-built 插件框架（Wind/东方财富等数据商） | 探索中 |
