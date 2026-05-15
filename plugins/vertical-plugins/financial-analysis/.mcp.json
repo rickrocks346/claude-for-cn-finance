@@ -1,13 +1,13 @@
 {
   "mcpServers": {
     "akshare": {
-      "command": "python3",
+      "command": "python",
       "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-servers/akshare-server.py"],
       "description": "AKShare 开源金融数据 — A股行情、基金净值、宏观经济、期货期权（免费，无需 API key）",
       "env": {}
     },
     "tushare": {
-      "command": "python3",
+      "command": "python",
       "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-servers/tushare-server.py"],
       "description": "Tushare 金融数据 — A股行情、财务数据、基金、债券（需要注册获取 token）",
       "env": {

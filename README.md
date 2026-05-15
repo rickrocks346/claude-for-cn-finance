@@ -42,23 +42,28 @@
 ### Claude Code
 
 ```bash
-# 添加 marketplace
+# 1. 添加 marketplace（一次性）
 claude plugin marketplace add rickrocks346/claude-for-cn-finance
 
-# 核心 skills + 数据连接器（最先安装）
+# 2. 核心层 — 必须最先安装，所有其他插件依赖此项
 claude plugin install financial-analysis@claude-for-cn-finance
 
-# Named agents — 按需安装
-claude plugin install market-researcher@claude-for-cn-finance
-claude plugin install fund-screener@claude-for-cn-finance
-claude plugin install risk-advisor@claude-for-cn-finance
-
-# Vertical skill bundles
+# 3. Vertical 技能包 — agent 插件的前置依赖
 claude plugin install a-share-research@claude-for-cn-finance
 claude plugin install fund-analysis@claude-for-cn-finance
 claude plugin install fixed-income@claude-for-cn-finance
 claude plugin install risk-profiling@claude-for-cn-finance
+
+# 4. Agent 插件 — 依赖对应的 vertical 插件，请在上一步完成后安装
+# market-researcher 依赖：financial-analysis + a-share-research
+claude plugin install market-researcher@claude-for-cn-finance
+# fund-screener 依赖：financial-analysis + fund-analysis
+claude plugin install fund-screener@claude-for-cn-finance
+# risk-advisor 依赖：financial-analysis + risk-profiling
+claude plugin install risk-advisor@claude-for-cn-finance
 ```
+
+> **注意**：请按顺序逐条安装，每个命令完成后再执行下一条。Agent 插件依赖对应的 vertical 插件已安装完毕，如果并行安装或顺序错乱可能导致 agent 插件注册失败。
 
 安装后可在对话中直接使用 slash commands（`/earnings`、`/valuation`、`/risk-check` 等），skills 在相关场景自动触发。
 
