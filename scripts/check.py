@@ -43,9 +43,13 @@ def check_plugin_json(path: Path):
             fail(f"{path}: marketplace missing 'plugins' array")
             return
         for plugin in data["marketplace"]["plugins"]:
-            ref_path = ROOT / plugin["path"]
+            ref_path_str = plugin.get("source") or plugin.get("path")
+            if not ref_path_str:
+                fail(f"{path}: marketplace plugin missing 'source' or 'path' field")
+                continue
+            ref_path = ROOT / ref_path_str
             if not ref_path.is_dir():
-                fail(f"{path}: marketplace references nonexistent path '{plugin['path']}'")
+                fail(f"{path}: marketplace references nonexistent path '{ref_path_str}'")
     else:
         # Vertical plugin manifest
         for field in REQUIRED_PLUGIN_FIELDS:
@@ -110,9 +114,10 @@ def main():
     print("check.py — Plugin Manifest Linter")
     print("=" * 60)
 
-    # 1. Check all plugin.json files
-    print("\n[1] Checking plugin.json files...")
-    for plugin_json in sorted(ROOT.glob("**/plugin.json")):
+    # 1. Check all plugin.json / marketplace.json files
+    print("\n[1] Checking plugin.json / marketplace.json files...")
+    manifests = sorted(list(ROOT.glob("**/plugin.json")) + list(ROOT.glob("**/marketplace.json")))
+    for plugin_json in manifests:
         check_plugin_json(plugin_json)
 
     # 2. Check all hooks.json files
