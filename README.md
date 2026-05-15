@@ -174,16 +174,16 @@ claude plugin marketplace add rickrocks346/claude-for-cn-finance
 # 核心层（最先安装）
 claude plugin install financial-analysis@claude-for-cn-finance
 
-# Named agents — 按需选择
-claude plugin install market-researcher@claude-for-cn-finance
-claude plugin install fund-screener@claude-for-cn-finance
-claude plugin install risk-advisor@claude-for-cn-finance
-
-# Vertical skill bundles
+# Vertical skill bundles — agent 插件的前置依赖
 claude plugin install a-share-research@claude-for-cn-finance
 claude plugin install fund-analysis@claude-for-cn-finance
 claude plugin install fixed-income@claude-for-cn-finance
 claude plugin install risk-profiling@claude-for-cn-finance
+
+# Named agents — 依赖对应的 vertical 插件，请在 vertical 安装完成后执行
+claude plugin install market-researcher@claude-for-cn-finance
+claude plugin install fund-screener@claude-for-cn-finance
+claude plugin install risk-advisor@claude-for-cn-finance
 ```
 
 ### Claude Cowork Plugin
