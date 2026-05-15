@@ -15,6 +15,12 @@ import sys
 import traceback
 from typing import Any
 
+# UTF-8 is required for MCP JSON-RPC protocol over stdio.
+# On Windows, sys.stdout.encoding defaults to 'gbk' which corrupts
+# Chinese characters in JSON-RPC messages.
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 
 # ---------------------------------------------------------------------------
 # AKShare wrapper — lazy import to allow tools/list before pip install check
@@ -106,13 +112,13 @@ TOOLS = [
                     "type": "string",
                     "description": "基金代码，如 '000001'（华夏成长混合）",
                 },
-                "start_date": {
+                "indicator": {
                     "type": "string",
-                    "description": "开始日期 YYYYMMDD",
+                    "description": "指标类型: 单位净值走势(默认), 累计净值走势, 累计收益率走势",
                 },
-                "end_date": {
+                "period": {
                     "type": "string",
-                    "description": "结束日期 YYYYMMDD",
+                    "description": "时间范围: 交易日(默认), 1月, 3月, 6月, 1年, 3年, 5年, 成立以来, 今年来",
                 },
             },
             "required": ["fund_code"],
@@ -248,15 +254,18 @@ def handle_financial_statements(args: dict) -> dict:
 def handle_fund_nav(args: dict) -> dict:
     ak = _get_ak()
     fund_code = args["fund_code"]
-    start = args.get("start_date", "20240101")
-    end = args.get("end_date", "20251231")
+    indicator = args.get("indicator", "单位净值走势")
+    period = args.get("period", "交易日")
 
-    df = ak.fund_open_fund_info_em(symbol=fund_code, indicator="单位净值走势")
-    # AKShare fund nav API may differ; fallback pattern
+    df = ak.fund_open_fund_info_em(
+        symbol=fund_code,
+        indicator=indicator,
+        period=period,
+    )
     return {
         "fund_code": fund_code,
-        "start_date": start,
-        "end_date": end,
+        "indicator": indicator,
+        "period": period,
         "count": len(df) if df is not None else 0,
         "data": df.to_dict(orient="records") if df is not None else [],
     }

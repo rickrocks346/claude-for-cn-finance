@@ -18,6 +18,12 @@ import json
 import os
 import sys
 import traceback
+
+# UTF-8 is required for MCP JSON-RPC protocol over stdio.
+# On Windows, sys.stdout.encoding defaults to 'gbk' which corrupts
+# Chinese characters in JSON-RPC messages.
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
 from typing import Any
 
 
