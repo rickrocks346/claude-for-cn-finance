@@ -37,12 +37,9 @@ def check_plugin_json(path: Path):
         fail(f"{path} is not valid JSON: {e}")
         return
 
-    if "marketplace" in data:
-        # Top-level manifest with marketplace
-        if "plugins" not in data["marketplace"]:
-            fail(f"{path}: marketplace missing 'plugins' array")
-            return
-        for plugin in data["marketplace"]["plugins"]:
+    if "plugins" in data and isinstance(data["plugins"], list):
+        # Marketplace manifest with top-level plugins array
+        for plugin in data["plugins"]:
             ref_path_str = plugin.get("source") or plugin.get("path")
             if not ref_path_str:
                 fail(f"{path}: marketplace plugin missing 'source' or 'path' field")
